@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaración de Amor</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: pink; /* Fondo rosa */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #000;
+        }
+
+        /* Forma de los corazones */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(45deg);
+            animation: fall 4s linear infinite, fade 3.5s linear infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -10px;
+            top: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100%) rotate(45deg);
+                left: calc(100% * var(--randomX));
+            }
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+                left: calc(100% * var(--randomX));
+            }
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .image-container {
+            position: relative;
+            text-align: center;
+        }
+
+        img {
+            max-width: 250px;
+            opacity: 0;
+            animation: drop 3s ease-out forwards;
+        }
+
+        @keyframes drop {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            animation: fadeIn 2s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor de la imagen y mensaje -->
+    <div class="image-container">
+        <img src="https://drive.google.com/file/d/1hdBwFDMgLxiGLTq-xuWII5uCFVhYIB_B/view?usp=sharing" alt="Foto especial" id="center-image">
+        <p class="message" id="love-message">Espe, ha pasado un mes desde esta foto. No dejemos que el amor se vaya con el tiempo...</p>
+    </div>
+
+    <script>
+        // Función para crear corazones
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.setProperty("--randomX", Math.random());
+            heart.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 4000); // Remueve corazones
+        }
+
+        setInterval(createHeart, 200); // Genera corazones periódicamente
+
+        // Mostrar mensaje después de que la imagen caiga
+        const image = document.getElementById("center-image");
+        const message = document.getElementById("love-message");
+
+        image.addEventListener("animationend", () => {
+            message.style.display = "block";
+        });
+    </script>
+</body>
+</html>
